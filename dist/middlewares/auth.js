@@ -1,14 +1,10 @@
 "use strict";
-// import { NextFunction, Request, Response } from "express";
-// import jwt from "jsonwebtoken";
-// import { User } from "../modules/user/user.model";
-// import { ApiError } from "../utils/ApiError";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken")); // Import JwtPayload
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_model_1 = require("../modules/user/user.model");
 const ApiError_1 = require("../utils/ApiError");
 const auth = () => async (req, res, next) => {

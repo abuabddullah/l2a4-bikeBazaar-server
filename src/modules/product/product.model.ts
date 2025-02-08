@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import { IProduct } from './product.interface';
+import mongoose from "mongoose";
+import { IProduct } from "./product.interface";
 
 const productSchema = new mongoose.Schema(
   {
@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
-    model: {
+    productModel: {
       type: String,
       required: true,
       trim: true,
@@ -47,4 +47,4 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-export const Product = mongoose.model<IProduct>('Product', productSchema);
+export const Product = mongoose.model<IProduct>("Product", productSchema);

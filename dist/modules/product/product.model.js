@@ -21,7 +21,7 @@ const productSchema = new mongoose_1.default.Schema({
         required: true,
         min: 0,
     },
-    model: {
+    productModel: {
         type: String,
         required: true,
         trim: true,
@@ -47,4 +47,4 @@ const productSchema = new mongoose_1.default.Schema({
 }, {
     timestamps: true,
 });
-exports.Product = mongoose_1.default.model('Product', productSchema);
+exports.Product = mongoose_1.default.model("Product", productSchema);

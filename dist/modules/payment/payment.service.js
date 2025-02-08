@@ -10,8 +10,7 @@ const ApiError_1 = require("../../utils/ApiError");
 const order_model_1 = require("../order/order.model");
 dotenv_1.default.config();
 // Initialize SSLCommerzPayment
-const sslcommerz = new sslcommerz_lts_1.default(process.env.STORE_ID, process.env.STORE_PASSWORD, false // Set to `true` for production
-);
+const sslcommerz = new sslcommerz_lts_1.default(process.env.STORE_ID, process.env.STORE_PASSWORD, false);
 exports.paymentService = {
     async initiatePayment(orderId) {
         var _a, _b, _c;
@@ -43,7 +42,6 @@ exports.paymentService = {
             cus_postcode: order.shippingAddress.postalCode,
             cus_country: order.shippingAddress.country,
         };
-        // Use the sslcommerz instance to initialize the payment
         const response = await sslcommerz.init(data);
         return response;
     },

@@ -2,18 +2,21 @@ import dotenv from "dotenv";
 import SSLCommerzPayment from "sslcommerz-lts";
 import { ApiError } from "../../utils/ApiError";
 import { Order } from "../order/order.model";
+import { IUser } from "../user/user.interface";
 dotenv.config();
 
 // Initialize SSLCommerzPayment
-const sslcommerz = new SSLCommerzPayment(
+const sslcommerz = new (SSLCommerzPayment as any)(
   process.env.STORE_ID!,
   process.env.STORE_PASSWORD!,
-  false // Set to `true` for production
+  false
 );
 
 export const paymentService = {
   async initiatePayment(orderId: string) {
-    const order = await Order.findById(orderId).populate("userId");
+    const order = await Order.findById(orderId).populate<{ userId: IUser }>(
+      "userId"
+    );
     if (!order) {
       throw new ApiError(404, "Order not found");
     }

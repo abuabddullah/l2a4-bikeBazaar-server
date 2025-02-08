@@ -1,10 +1,10 @@
-import { Document } from 'mongoose';
+import { Document } from "mongoose";
 
 export interface IProduct extends Document {
   name: string;
   brand: string;
   price: number;
-  model: string;
+  productModel: string;
   stock: number;
   category: string;
   imageURL: string;

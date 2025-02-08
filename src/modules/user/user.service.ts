@@ -11,7 +11,7 @@ export const userService = {
     }
 
     const user = await User.create(userData);
-    const token = generateToken(user._id);
+    const token = generateToken(user._id as string);
 
     return { user, token };
   },
@@ -22,7 +22,7 @@ export const userService = {
       throw new ApiError(401, "Invalid credentials");
     }
 
-    const token = generateToken(user._id);
+    const token = generateToken(user._id as string);
     return { user, token };
   },
 

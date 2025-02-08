@@ -1,4 +1,5 @@
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
+import { IUser } from "../user/user.interface";
 
 export interface IOrderItem {
   productId: string;
@@ -9,7 +10,7 @@ export interface IOrderItem {
 export type TOrderStatus = "Pending" | "Shipped" | "Delivered" | "Cancelled";
 
 export interface IOrder extends Document {
-  userId: string;
+  userId: mongoose.Types.ObjectId | IUser;
   items: IOrderItem[];
   totalPrice: number;
   status: TOrderStatus;
