@@ -43,7 +43,6 @@ export const paymentService = {
       cus_country: order.shippingAddress.country,
     };
 
-    // Use the sslcommerz instance to initialize the payment
     const response = await sslcommerz.init(data);
     return response;
   },

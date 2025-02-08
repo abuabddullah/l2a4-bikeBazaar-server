@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { User } from "../modules/user/user.model";
 import { ApiError } from "../utils/ApiError";
 
@@ -20,13 +20,22 @@ export const auth =
         throw new ApiError(401, "Authentication required");
       }
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+      // Verify the token and assert the type
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+
+      // Check if the decoded object has an `id` property
+      if (!decoded?.id) {
+        throw new ApiError(401, "Invalid token payload");
+      }
+
+      // Find the user by ID
       const user = await User.findById(decoded.id);
 
       if (!user) {
         throw new ApiError(401, "User not found");
       }
 
+      // Attach the user to the request object
       req.user = user;
       next();
     } catch (error) {
