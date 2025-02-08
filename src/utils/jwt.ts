@@ -8,13 +8,12 @@
 
 /* new code */
 
-import dotenv from "dotenv";
+import config from "./../config/config";
+
 import jwt, { Secret } from "jsonwebtoken";
 
-dotenv.config();
-
-const JWT_SECRET: Secret | undefined = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN: string = process.env.JWT_EXPIRES_IN || "1d";
+const JWT_SECRET: Secret | undefined = config.JWT_SECRET;
+const JWT_EXPIRES_IN: string = config.JWT_EXPIRES_IN || "1d";
 
 // Ensure JWT_SECRET is defined
 if (!JWT_SECRET) {

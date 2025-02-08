@@ -1,14 +1,13 @@
-import dotenv from "dotenv";
 import SSLCommerzPayment from "sslcommerz-lts";
 import { ApiError } from "../../utils/ApiError";
 import { Order } from "../order/order.model";
 import { IUser } from "../user/user.interface";
-dotenv.config();
+import config from "./../../config/config";
 
 // Initialize SSLCommerzPayment
 const sslcommerz = new (SSLCommerzPayment as any)(
-  process.env.STORE_ID!,
-  process.env.STORE_PASSWORD!,
+  config.STORE_ID!,
+  config.STORE_PASSWORD!,
   false
 );
 
@@ -29,10 +28,10 @@ export const paymentService = {
       total_amount: order.totalPrice,
       currency: "BDT",
       tran_id: transactionId,
-      success_url: `${process.env.API_URL}/api/payments/success`,
-      fail_url: `${process.env.API_URL}/api/payments/fail`,
-      cancel_url: `${process.env.API_URL}/api/payments/cancel`,
-      ipn_url: `${process.env.API_URL}/api/payments/ipn`,
+      success_url: `${config.API_URL}/api/payments/success`,
+      fail_url: `${config.API_URL}/api/payments/fail`,
+      cancel_url: `${config.API_URL}/api/payments/cancel`,
+      ipn_url: `${config.API_URL}/api/payments/ipn`,
       shipping_method: "NO",
       product_name: "Bicycle",
       product_category: "Physical Goods",

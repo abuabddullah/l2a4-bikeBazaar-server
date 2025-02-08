@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import { paymentService } from './payment.service';
-import { catchAsync } from '../../utils/catchAsync';
+import { NextFunction, Request, Response } from "express";
+import { catchAsync } from "../../utils/catchAsync";
+import config from "./../../config/config";
+import { paymentService } from "./payment.service";
 
 export const paymentController = {
   initiatePayment: catchAsync(
@@ -17,20 +18,20 @@ export const paymentController = {
   handlePaymentSuccess: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const order = await paymentService.handlePaymentSuccess(req.body);
-      res.redirect(`${process.env.FRONTEND_URL}/payment/success`);
+      res.redirect(`${config.FRONTEND_URL}/payment/success`);
     }
   ),
 
   handlePaymentFailure: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const order = await paymentService.handlePaymentFailure(req.body);
-      res.redirect(`${process.env.FRONTEND_URL}/payment/failed`);
+      res.redirect(`${config.FRONTEND_URL}/payment/failed`);
     }
   ),
 
   handlePaymentCancel: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      res.redirect(`${process.env.FRONTEND_URL}/payment/cancelled`);
+      res.redirect(`${config.FRONTEND_URL}/payment/cancelled`);
     }
   ),
 

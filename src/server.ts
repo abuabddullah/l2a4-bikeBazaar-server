@@ -1,9 +1,10 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import dotenv from "dotenv";
+
 import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
+import config from "./config/config";
 import { connectDB } from "./config/database";
 import { errorHandler } from "./middlewares/error.middleware";
 import { orderRoutes } from "./modules/order/order.routes";
@@ -11,10 +12,8 @@ import { paymentRoutes } from "./modules/payment/payment.routes";
 import { productRoutes } from "./modules/product/product.routes";
 import { userRoutes } from "./modules/user/user.routes";
 
-dotenv.config();
-
 const app = express();
-const port = process.env.PORT || 5000;
+const port = config.PORT || 5000;
 
 // Middleware
 app.use(helmet());
