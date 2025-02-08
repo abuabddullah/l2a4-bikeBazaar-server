@@ -7,6 +7,7 @@ exports.auth = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_model_1 = require("../modules/user/user.model");
 const ApiError_1 = require("../utils/ApiError");
+const config_1 = __importDefault(require("./../config/config"));
 const auth = () => async (req, res, next) => {
     var _a;
     try {
@@ -15,7 +16,7 @@ const auth = () => async (req, res, next) => {
             throw new ApiError_1.ApiError(401, "Authentication required");
         }
         // Verify the token and assert the type
-        const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        const decoded = jsonwebtoken_1.default.verify(token, config_1.default.JWT_SECRET);
         // Check if the decoded object has an `id` property
         if (!(decoded === null || decoded === void 0 ? void 0 : decoded.id)) {
             throw new ApiError_1.ApiError(401, "Invalid token payload");

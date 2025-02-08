@@ -11,11 +11,10 @@ exports.generateToken = void 0;
 //   });
 // };
 /* new code */
-const dotenv_1 = __importDefault(require("dotenv"));
+const config_1 = __importDefault(require("./../config/config"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-dotenv_1.default.config();
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "1d";
+const JWT_SECRET = config_1.default.JWT_SECRET;
+const JWT_EXPIRES_IN = config_1.default.JWT_EXPIRES_IN || "1d";
 // Ensure JWT_SECRET is defined
 if (!JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined in environment variables.");

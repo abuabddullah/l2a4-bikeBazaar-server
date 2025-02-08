@@ -4,12 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = void 0;
-const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
-dotenv_1.default.config();
+const config_1 = __importDefault(require("./config"));
 const connectDB = async () => {
     try {
-        const conn = await mongoose_1.default.connect(process.env.MONGODB_URI);
+        const conn = await mongoose_1.default.connect(config_1.default.MONGODB_URI);
         console.log(`MongoDB Connected: ${conn.connection.host}`);
     }
     catch (error) {

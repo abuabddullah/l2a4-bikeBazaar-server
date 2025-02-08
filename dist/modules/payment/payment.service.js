@@ -4,13 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.paymentService = void 0;
-const dotenv_1 = __importDefault(require("dotenv"));
 const sslcommerz_lts_1 = __importDefault(require("sslcommerz-lts"));
 const ApiError_1 = require("../../utils/ApiError");
 const order_model_1 = require("../order/order.model");
-dotenv_1.default.config();
+const config_1 = __importDefault(require("./../../config/config"));
 // Initialize SSLCommerzPayment
-const sslcommerz = new sslcommerz_lts_1.default(process.env.STORE_ID, process.env.STORE_PASSWORD, false);
+const sslcommerz = new sslcommerz_lts_1.default(config_1.default.STORE_ID, config_1.default.STORE_PASSWORD, false);
 exports.paymentService = {
     async initiatePayment(orderId) {
         var _a, _b, _c;
@@ -26,10 +25,10 @@ exports.paymentService = {
             total_amount: order.totalPrice,
             currency: "BDT",
             tran_id: transactionId,
-            success_url: `${process.env.API_URL}/api/payments/success`,
-            fail_url: `${process.env.API_URL}/api/payments/fail`,
-            cancel_url: `${process.env.API_URL}/api/payments/cancel`,
-            ipn_url: `${process.env.API_URL}/api/payments/ipn`,
+            success_url: `${config_1.default.API_URL}/api/payments/success`,
+            fail_url: `${config_1.default.API_URL}/api/payments/fail`,
+            cancel_url: `${config_1.default.API_URL}/api/payments/cancel`,
+            ipn_url: `${config_1.default.API_URL}/api/payments/ipn`,
             shipping_method: "NO",
             product_name: "Bicycle",
             product_category: "Physical Goods",
