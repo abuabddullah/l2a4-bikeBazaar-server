@@ -19,6 +19,6 @@ export const createOrderSchema = z.object({
 
 export const updateOrderStatusSchema = z.object({
   body: z.object({
-    status: z.enum(["Pending", "Shipped", "Delivered", "Cancelled"]),
+    status: z.enum(["pending", "shipped", "delivered", "cancelled"]),
   }),
 });

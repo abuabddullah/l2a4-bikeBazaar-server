@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const registerSchema = z.object({
   body: z.object({
@@ -26,5 +26,12 @@ export const changePasswordSchema = z.object({
   body: z.object({
     currentPassword: z.string(),
     newPassword: z.string().min(6),
+  }),
+});
+
+export const changeUserStatusSchema = z.object({
+  body: z.object({
+    targetUserId: z.string(),
+    status: z.string(),
   }),
 });

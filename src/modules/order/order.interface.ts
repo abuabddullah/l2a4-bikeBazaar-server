@@ -7,14 +7,14 @@ export interface IOrderItem {
   price: number;
 }
 
-export type TOrderStatus = "Pending" | "Shipped" | "Delivered" | "Cancelled";
+export type TOrderStatus = "pending" | "shipped" | "delivered" | "cancelled";
 
 export interface IOrder extends Document {
   userId: mongoose.Types.ObjectId | IUser;
   items: IOrderItem[];
   totalPrice: number;
   status: TOrderStatus;
-  paymentStatus: "Pending" | "Completed" | "Failed";
+  paymentStatus: "pending" | "completed" | "failed";
   shippingAddress: {
     address: string;
     city: string;

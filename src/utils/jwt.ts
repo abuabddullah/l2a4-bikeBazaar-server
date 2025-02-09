@@ -20,6 +20,7 @@ if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined in environment variables.");
 }
 export type TJWTPayload = {
+  _id: string;
   email: string;
   role: "user" | "admin";
 };

@@ -59,4 +59,14 @@ export const orderController = {
       });
     }
   ),
+
+  getAllOrders: catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const orders = await orderService.getAllOrders();
+      res.status(200).json({
+        success: true,
+        data: orders,
+      });
+    }
+  ),
 };

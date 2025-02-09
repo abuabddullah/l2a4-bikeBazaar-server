@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { userService } from "./user.service";
+import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
+import { userService } from "./user.service";
 
 export const userController = {
   register: catchAsync(
@@ -58,7 +58,30 @@ export const userController = {
       );
       res.status(200).json({
         success: true,
-        message: "Password changed successfully",
+        message: result?.message || "Password changed successfully",
+      });
+    }
+  ),
+
+  getAllUsers: catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const users = await userService.getAllUsers();
+      res.status(200).json({
+        success: true,
+        message: "Users retrieved successfully",
+        data: users,
+      });
+    }
+  ),
+
+  changeUserStatus: catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const { targetUserId, status } = req.body;
+      const result = await userService.changeUserStatus(targetUserId, status);
+      res.status(200).json({
+        success: true,
+        message: "User status changed successfully",
+        data: result,
       });
     }
   ),

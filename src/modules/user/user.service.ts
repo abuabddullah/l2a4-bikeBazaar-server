@@ -14,6 +14,7 @@ export const userService = {
 
     // Generate JWT token
     const jwtPayload = {
+      _id: user._id as string,
       email: user.email as string,
       role: user.role,
     };
@@ -30,6 +31,7 @@ export const userService = {
 
     // Generate JWT token
     const jwtPayload = {
+      _id: user._id as string,
       email: user.email as string,
       role: user.role,
     };
@@ -75,5 +77,26 @@ export const userService = {
     await user.save();
 
     return { message: "Password updated successfully" };
+  },
+
+  async getAllUsers() {
+    const users = await User.find();
+    return users;
+  },
+  async changeUserStatus(targetUserId: string, status: string) {
+    const updateField =
+      status === "active" || status === "inactive"
+        ? { status }
+        : { role: status };
+
+    const user = await User.findByIdAndUpdate(
+      targetUserId,
+      { $set: updateField },
+      { new: true }
+    );
+    if (!user) {
+      throw new ApiError(404, "User not found");
+    }
+    return user;
   },
 };

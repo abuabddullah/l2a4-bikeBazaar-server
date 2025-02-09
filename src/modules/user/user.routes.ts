@@ -1,34 +1,44 @@
-import express from 'express';
-import { userController } from './user.controller';
-import { validateRequest } from '../../middlewares/validateRequest';
-import { auth } from '../../middlewares/auth';
+import express from "express";
+import { auth } from "../../middlewares/auth";
+import { validateRequest } from "../../middlewares/validateRequest";
+import { isAdmin } from "./../../middlewares/isAdmin";
+import { userController } from "./user.controller";
 import {
-  registerSchema,
-  loginSchema,
-  updateProfileSchema,
   changePasswordSchema,
-} from './user.validation';
+  changeUserStatusSchema,
+  loginSchema,
+  registerSchema,
+  updateProfileSchema,
+} from "./user.validation";
 
 const router = express.Router();
 
 router.post(
-  '/register',
+  "/register",
   validateRequest(registerSchema),
   userController.register
 );
-router.post('/login', validateRequest(loginSchema), userController.login);
-router.get('/profile', auth(), userController.getProfile);
+router.post("/login", validateRequest(loginSchema), userController.login);
+router.get("/profile", auth(), userController.getProfile);
 router.patch(
-  '/profile',
+  "/profile",
   auth(),
   validateRequest(updateProfileSchema),
   userController.updateProfile
 );
+router.get("/all-users", auth(), isAdmin, userController.getAllUsers);
 router.post(
-  '/change-password',
+  "/change-password",
   auth(),
   validateRequest(changePasswordSchema),
   userController.changePassword
+);
+router.patch(
+  "/update-status",
+  auth(),
+  isAdmin,
+  validateRequest(changeUserStatusSchema),
+  userController.changeUserStatus
 );
 
 export const userRoutes = router;

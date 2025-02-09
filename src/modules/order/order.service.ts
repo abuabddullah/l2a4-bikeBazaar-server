@@ -44,8 +44,8 @@ export const orderService = {
             ...orderData,
             userId,
             totalPrice,
-            status: "Pending",
-            paymentStatus: "Pending",
+            status: "pending",
+            paymentStatus: "pending",
           },
         ],
         { session }
@@ -96,7 +96,7 @@ export const orderService = {
       throw new ApiError(404, "Order not found");
     }
 
-    if (order.status !== "Pending") {
+    if (order.status !== "pending") {
       throw new ApiError(400, "Can only cancel pending orders");
     }
 
@@ -124,5 +124,12 @@ export const orderService = {
     } finally {
       session.endSession();
     }
+  },
+
+  async getAllOrders() {
+    return await Order.find()
+      .populate("items.productId")
+      .populate("userId")
+      .sort({ createdAt: -1 });
   },
 };

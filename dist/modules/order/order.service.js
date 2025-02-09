@@ -35,8 +35,8 @@ exports.orderService = {
                     ...orderData,
                     userId,
                     totalPrice,
-                    status: "Pending",
-                    paymentStatus: "Pending",
+                    status: "pending",
+                    paymentStatus: "pending",
                 },
             ], { session });
             await session.commitTransaction();
@@ -79,7 +79,7 @@ exports.orderService = {
         if (!order) {
             throw new ApiError_1.ApiError(404, "Order not found");
         }
-        if (order.status !== "Pending") {
+        if (order.status !== "pending") {
             throw new ApiError_1.ApiError(400, "Can only cancel pending orders");
         }
         const session = await mongoose_1.default.startSession();

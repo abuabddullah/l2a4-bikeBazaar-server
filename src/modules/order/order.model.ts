@@ -1,18 +1,18 @@
-import mongoose from 'mongoose';
-import { IOrder } from './order.interface';
+import mongoose from "mongoose";
+import { IOrder } from "./order.interface";
 
 const orderSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     items: [
       {
         productId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
+          ref: "Product",
           required: true,
         },
         quantity: {
@@ -34,13 +34,13 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Pending', 'Shipped', 'Delivered', 'Cancelled'],
-      default: 'Pending',
+      enum: ["pending", "shipped", "delivered", "cancelled"],
+      default: "pending",
     },
     paymentStatus: {
       type: String,
-      enum: ['Pending', 'Completed', 'Failed'],
-      default: 'Pending',
+      enum: ["pending", "completed", "failed"],
+      default: "pending",
     },
     shippingAddress: {
       address: {
@@ -66,4 +66,4 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-export const Order = mongoose.model<IOrder>('Order', orderSchema);
+export const Order = mongoose.model<IOrder>("Order", orderSchema);
