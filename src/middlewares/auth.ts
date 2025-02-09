@@ -25,12 +25,12 @@ export const auth =
       const decoded = jwt.verify(token, config.JWT_SECRET!) as JwtPayload;
 
       // Check if the decoded object has an `id` property
-      if (!decoded?.id) {
+      if (!decoded?.email) {
         throw new ApiError(401, "Invalid token payload");
       }
 
-      // Find the user by ID
-      const user = await User.findById(decoded.id);
+      // Find the user by email
+      const user = await User.findOne({ email: decoded.email });
 
       if (!user) {
         throw new ApiError(401, "User not found");

@@ -11,7 +11,13 @@ export const userService = {
     }
 
     const user = await User.create(userData);
-    const token = generateToken(user._id as string);
+
+    // Generate JWT token
+    const jwtPayload = {
+      email: user.email as string,
+      role: user.role,
+    };
+    const token = generateToken(jwtPayload);
 
     return { user, token };
   },
@@ -22,7 +28,12 @@ export const userService = {
       throw new ApiError(401, "Invalid credentials");
     }
 
-    const token = generateToken(user._id as string);
+    // Generate JWT token
+    const jwtPayload = {
+      email: user.email as string,
+      role: user.role,
+    };
+    const token = generateToken(jwtPayload);
     return { user, token };
   },
 

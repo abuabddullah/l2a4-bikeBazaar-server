@@ -19,9 +19,12 @@ const JWT_EXPIRES_IN: string = config.JWT_EXPIRES_IN || "1d";
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined in environment variables.");
 }
-
-export const generateToken = (id: string): string => {
-  return jwt.sign({ id }, JWT_SECRET, {
+export type TJWTPayload = {
+  email: string;
+  role: "user" | "admin";
+};
+export const generateToken = (jwtPayload: TJWTPayload): string => {
+  return jwt.sign(jwtPayload, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN,
   } as jwt.SignOptions); // Explicitly casting to SignOptions
 };

@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import { IUser } from './user.interface';
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import { IUser } from "./user.interface";
 
 const userSchema = new mongoose.Schema(
   {
@@ -23,8 +23,8 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['customer', 'admin'],
-      default: 'customer',
+      enum: ["user", "admin"],
+      default: "user",
     },
   },
   {
@@ -32,9 +32,9 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -50,4 +50,4 @@ userSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-export const User = mongoose.model<IUser>('User', userSchema);
+export const User = mongoose.model<IUser>("User", userSchema);
