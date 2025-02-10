@@ -2,9 +2,7 @@ import express from "express";
 import { auth } from "../../middlewares/auth";
 import { isAdmin } from "../../middlewares/isAdmin";
 import { upload } from "../../middlewares/upload";
-import { validateRequest } from "../../middlewares/validateRequest";
 import { productController } from "./product.controller";
-import { createProductSchema, updateProductSchema } from "./product.validation";
 
 const router = express.Router();
 
@@ -16,7 +14,7 @@ router.post(
   auth(),
   isAdmin,
   upload.single("image"),
-  validateRequest(createProductSchema),
+  // validateRequest(createProductSchema),
   productController.createProduct
 );
 
@@ -25,7 +23,7 @@ router.patch(
   auth(),
   isAdmin,
   upload.single("image"),
-  validateRequest(updateProductSchema),
+  // validateRequest(updateProductSchema),
   productController.updateProduct
 );
 

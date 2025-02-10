@@ -1,30 +1,41 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { uploadToCloudinary } from "../../utils/cloudinary";
+import { Product } from "./product.model";
 import { productService } from "./product.service";
 
+// export const createProduct = async (req: Request, res: Response) => {
+//   try {
+//     let imageURL = "";
+//     if (req.file) imageURL = await uploadToCloudinary(req.file.path);
+
+//     const productData = { ...req.body, imageURL };
+//     const product = await Product.create(productData);
+
+//     res
+//       .status(201)
+//       .json({ success: true, message: "Product created", data: product });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
+
 export const productController = {
-  createProduct: catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+  createProduct: catchAsync(async (req: Request, res: Response) => {
+    try {
       let imageURL = "";
-      if (req.file) {
-        const result = await uploadToCloudinary(req.file.path);
-        imageURL = result.secure_url;
-      }
+      if (req.file) imageURL = await uploadToCloudinary(req.file.path);
 
-      const productData = {
-        ...req.body,
-        imageURL,
-      };
+      const productData = { ...req.body, imageURL };
+      const product = await Product.create(productData);
 
-      const product = await productService.createProduct(productData);
-      res.status(201).json({
-        success: true,
-        message: "Product created successfully",
-        data: product,
-      });
+      res
+        .status(201)
+        .json({ success: true, message: "Product created", data: product });
+    } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
     }
-  ),
+  }),
 
   getAllProducts: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -65,11 +76,9 @@ export const productController = {
     async (req: Request, res: Response, next: NextFunction) => {
       let updateData = { ...req.body };
 
-      if (req.file) {
-        const result = await uploadToCloudinary(req.file.path);
-        updateData.imageURL = result.secure_url;
-      }
-
+      if (req.file)
+        updateData.imageURL = await uploadToCloudinary(req.file.path);
+      console.log(req.file);
       const product = await productService.updateProduct(
         req.params.id,
         updateData

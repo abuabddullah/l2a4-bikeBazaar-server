@@ -5,10 +5,9 @@ export const createProductSchema = z.object({
     name: z.string().min(2),
     brand: z.string().min(2),
     price: z.number().positive(),
-    productModel: z.string(),
+    productModel: z.string().min(2),
     stock: z.number().int().min(0),
-    category: z.string(),
-    imageURL: z.string().optional(),
+    category: z.string().min(2),
     description: z.string().optional(),
   }),
 });

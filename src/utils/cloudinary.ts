@@ -1,8 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import config from "./../config/config";
 
-import fs from "fs";
-
 cloudinary.config({
   cloud_name: config.CLOUDINARY_CLOUD_NAME,
   api_key: config.CLOUDINARY_API_KEY,
@@ -10,14 +8,8 @@ cloudinary.config({
 });
 
 export const uploadToCloudinary = async (filePath: string) => {
-  try {
-    const result = await cloudinary.uploader.upload(filePath, {
-      folder: "bicycle-shop",
-    });
-    fs.unlinkSync(filePath);
-    return result;
-  } catch (error) {
-    fs.unlinkSync(filePath);
-    throw error;
-  }
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder: "bicycle-shop",
+  });
+  return result.secure_url;
 };
