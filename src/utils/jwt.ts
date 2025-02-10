@@ -22,7 +22,7 @@ if (!JWT_SECRET) {
 export type TJWTPayload = {
   _id: string;
   email: string;
-  role: "user" | "admin";
+  role: "customer" | "admin";
 };
 export const generateToken = (jwtPayload: TJWTPayload): string => {
   return jwt.sign(jwtPayload, JWT_SECRET, {

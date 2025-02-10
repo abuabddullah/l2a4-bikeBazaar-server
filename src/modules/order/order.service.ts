@@ -81,7 +81,7 @@ export const orderService = {
       throw new ApiError(404, "Order not found");
     }
 
-    if (order.status === "Cancelled") {
+    if (order.status === "cancelled") {
       throw new ApiError(400, "Cannot update cancelled order");
     }
 
@@ -113,7 +113,7 @@ export const orderService = {
         );
       }
 
-      order.status = "Cancelled";
+      order.status = "cancelled";
       await order.save({ session });
 
       await session.commitTransaction();

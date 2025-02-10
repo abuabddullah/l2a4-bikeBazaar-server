@@ -8,7 +8,7 @@ export const createProductSchema = z.object({
     productModel: z.string(),
     stock: z.number().int().min(0),
     category: z.string(),
-    imageURL: z.string().url().optional(),
+    imageURL: z.string().optional(),
     description: z.string().optional(),
   }),
 });

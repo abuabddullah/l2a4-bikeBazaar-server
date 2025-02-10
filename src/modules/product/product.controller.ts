@@ -6,8 +6,7 @@ import { productService } from "./product.service";
 export const productController = {
   createProduct: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      let imageURL =
-        "https://ahoybikes.com/wp-content/uploads/2023/09/GROWLER-MS-Grey-Black-1.jpg.webp";
+      let imageURL = "";
       if (req.file) {
         const result = await uploadToCloudinary(req.file.path);
         imageURL = result.secure_url;

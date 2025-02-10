@@ -56,7 +56,7 @@ export const paymentService = {
     if (!order) {
       throw new ApiError(404, "Order not found");
     }
-    order.paymentStatus = "Completed";
+    order.paymentStatus = "completed";
     await order.save();
     return order;
   },
@@ -68,7 +68,7 @@ export const paymentService = {
     if (!order) {
       throw new ApiError(404, "Order not found");
     }
-    order.paymentStatus = "Failed";
+    order.paymentStatus = "failed";
     await order.save();
     return order;
   },
