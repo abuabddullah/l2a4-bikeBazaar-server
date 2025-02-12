@@ -13,3 +13,10 @@ export const uploadToCloudinary = async (filePath: string) => {
   });
   return result.secure_url;
 };
+
+export const deleteFromCloudinary = async (imageUrl: string) => {
+  const publicId = imageUrl.split("/").pop()?.split(".")[0];
+  if (!publicId) return;
+
+  await cloudinary.uploader.destroy(`bicycle-shop/${publicId}`);
+};

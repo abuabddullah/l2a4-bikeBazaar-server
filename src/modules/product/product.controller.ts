@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
-import { uploadToCloudinary } from "../../utils/cloudinary";
+import {
+  deleteFromCloudinary,
+  uploadToCloudinary,
+} from "../../utils/cloudinary";
 import { Product } from "./product.model";
 import { productService } from "./product.service";
 
@@ -74,19 +77,28 @@ export const productController = {
 
   updateProduct: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
+      const { id } = req.params;
       let updateData = { ...req.body };
 
-      if (req.file)
-        updateData.imageURL = await uploadToCloudinary(req.file.path);
-      console.log(req.file);
-      const product = await productService.updateProduct(
-        req.params.id,
-        updateData
-      );
+      // Handle image upload
+      if (req.file) {
+        const newImageUrl = await uploadToCloudinary(req.file.path);
+
+        // Delete the old image from Cloudinary
+        const product = await productService.getProductById(id);
+        if (product?.imageURL) {
+          await deleteFromCloudinary(product.imageURL);
+        }
+
+        updateData.imageURL = newImageUrl;
+      }
+
+      const updatedProduct = await productService.updateProduct(id, updateData);
+
       res.status(200).json({
         success: true,
         message: "Product updated successfully",
-        data: product,
+        data: updatedProduct,
       });
     }
   ),
