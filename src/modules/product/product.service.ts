@@ -1,6 +1,6 @@
-import { Product } from './product.model';
-import { IProduct } from './product.interface';
-import { ApiError } from '../../utils/ApiError';
+import { ApiError } from "../../utils/ApiError";
+import { IProduct } from "./product.interface";
+import { Product } from "./product.model";
 
 export const productService = {
   async createProduct(productData: Partial<IProduct>) {
@@ -17,9 +17,9 @@ export const productService = {
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
-    
+
     const total = await Product.countDocuments(filters);
-    
+
     return {
       products,
       meta: {
@@ -33,7 +33,7 @@ export const productService = {
   async getProductById(id: string) {
     const product = await Product.findById(id);
     if (!product) {
-      throw new ApiError(404, 'Product not found');
+      throw new ApiError(404, "Product not found");
     }
     return product;
   },
@@ -45,7 +45,7 @@ export const productService = {
       { new: true }
     );
     if (!product) {
-      throw new ApiError(404, 'Product not found');
+      throw new ApiError(404, "Product not found");
     }
     return product;
   },
@@ -53,8 +53,18 @@ export const productService = {
   async deleteProduct(id: string) {
     const product = await Product.findByIdAndDelete(id);
     if (!product) {
-      throw new ApiError(404, 'Product not found');
+      throw new ApiError(404, "Product not found");
     }
     return product;
+  },
+
+  async getAllBrands() {
+    const brands = await Product.distinct("brand");
+    return brands;
+  },
+
+  async getAllCategories() {
+    const categories = await Product.distinct("category");
+    return categories;
   },
 };

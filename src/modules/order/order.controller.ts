@@ -28,7 +28,9 @@ export const orderController = {
 
   getOrderById: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const order = await orderService.getOrderById(req.params.id);
+      const page = Number(req.query.page) || 1;
+      const limit = Number(req.query.limit) || 10;
+      const order = await orderService.getOrderById(req.params.id, page, limit);
       res.status(200).json({
         success: true,
         data: order,
@@ -62,7 +64,14 @@ export const orderController = {
 
   getAllOrders: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const orders = await orderService.getAllOrders();
+      const page = Number(req.query.page) || 1;
+      const limit = Number(req.query.limit) || 10;
+      const { category, name } = req.query;
+
+      const filters: Record<string, any> = {};
+      if (category) filters.category = category;
+      if (name) filters.brand = name;
+      const orders = await orderService.getAllOrders(page, limit, filters);
       res.status(200).json({
         success: true,
         data: orders,

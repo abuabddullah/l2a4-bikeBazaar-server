@@ -112,4 +112,26 @@ export const productController = {
       });
     }
   ),
+
+  getAllBrands: catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const brands = await productService.getAllBrands();
+      res.status(200).json({
+        success: true,
+        message: "Brands retrieved successfully",
+        data: brands,
+      });
+    }
+  ),
+
+  getAllCategories: catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const categories = await productService.getAllCategories();
+      res.status(200).json({
+        success: true,
+        message: "Categories retrieved successfully",
+        data: categories,
+      });
+    }
+  ),
 };

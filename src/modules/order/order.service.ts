@@ -67,12 +67,26 @@ export const orderService = {
       .sort({ createdAt: -1 });
   },
 
-  async getOrderById(orderId: string) {
-    const order = await Order.findById(orderId).populate("items.productId");
+  async getOrderById(orderId: string, page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+
+    const order = await Order.findById(orderId)
+      .skip(skip)
+      .limit(limit)
+      .populate("items.productId");
     if (!order) {
       throw new ApiError(404, "Order not found");
     }
-    return order;
+
+    const total = await Order.countDocuments({ _id: orderId });
+    return {
+      order,
+      meta: {
+        page,
+        limit,
+        total,
+      },
+    };
   },
 
   async updateOrderStatus(orderId: string, status: TOrderStatus) {
@@ -126,10 +140,26 @@ export const orderService = {
     }
   },
 
-  async getAllOrders() {
-    return await Order.find()
+  async getAllOrders(
+    page: number = 1,
+    limit: number = 10,
+    filters: Record<string, any> = {}
+  ) {
+    const skip = (page - 1) * limit;
+    const orders = await Order.find(filters)
+      .skip(skip)
+      .limit(limit)
       .populate("items.productId")
       .populate("userId")
       .sort({ createdAt: -1 });
+    const total = await Order.countDocuments(filters);
+    return {
+      orders,
+      meta: {
+        page,
+        limit,
+        total,
+      },
+    };
   },
 };
