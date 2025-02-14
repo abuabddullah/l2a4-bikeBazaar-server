@@ -20,7 +20,6 @@ router.patch("/:id/cancel", auth(), orderController.cancelOrder);
 router.patch(
   "/:id/status",
   auth(),
-  isAdmin,
   validateRequest(updateOrderStatusSchema),
   orderController.updateOrderStatus
 );

@@ -6,7 +6,6 @@ import { Order } from "./order.model";
 
 export const orderService = {
   async createOrder(userId: string, orderData: Partial<IOrder>) {
-    console.log("strating create order");
     const session = await mongoose.startSession();
     session.startTransaction();
 

@@ -10,7 +10,6 @@ const product_model_1 = require("../product/product.model");
 const order_model_1 = require("./order.model");
 exports.orderService = {
     async createOrder(userId, orderData) {
-        console.log("strating create order");
         const session = await mongoose_1.default.startSession();
         session.startTransaction();
         try {
