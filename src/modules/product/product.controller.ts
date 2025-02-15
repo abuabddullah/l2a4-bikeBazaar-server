@@ -1,60 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
-import {
-  deleteFromCloudinary,
-  uploadToCloudinary,
-} from "../../utils/cloudinary";
+import { deleteFromCloudinary } from "../../utils/cloudinary";
 import { Product } from "./product.model";
 import { productService } from "./product.service";
 
 export const productController = {
-  /* createProduct: catchAsync(async (req: Request, res: Response) => {
-    try {
-      let imageURL = "";
-      if (req.file) imageURL = await uploadToCloudinary(req.file.path);
-
-      const productData = { ...req.body, imageURL };
-      const product = await Product.create(productData);
-
-      res
-        .status(201)
-        .json({ success: true, message: "Product created", data: product });
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Product not created" });
-    }
-  }),
-  
-
-  updateProduct: catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
-      let updateData = { ...req.body };
-
-      // Handle image upload
-      if (req.file) {
-        const newImageUrl = await uploadToCloudinary(req.file.path);
-
-        // Delete the old image from Cloudinary
-        const product = await productService.getProductById(id);
-        if (product?.imageURL) {
-          await deleteFromCloudinary(product.imageURL);
-        }
-
-        updateData.imageURL = newImageUrl;
-      }
-
-      const updatedProduct = await productService.updateProduct(id, updateData);
-
-      res.status(200).json({
-        success: true,
-        message: "Product updated successfully",
-        data: updatedProduct,
-      });
-    }
-  ), */
-
-  /* new code  */
-
   createProduct: catchAsync(async (req: Request, res: Response) => {
     try {
       let imageURL = req.file ? req.file.path : "";
