@@ -7,24 +7,18 @@ exports.upload = void 0;
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const storage = multer_1.default.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "uploads/");
-    },
-    filename: function (req, file, cb) {
+    destination: "uploads/",
+    filename: (req, file, cb) => {
         cb(null, `${file.fieldname}-${Date.now()}${path_1.default.extname(file.originalname)}`);
     },
 });
 exports.upload = (0, multer_1.default)({
-    storage: storage,
+    storage,
     fileFilter: (req, file, cb) => {
-        if (file.mimetype.startsWith("image/")) {
+        if (file.mimetype.startsWith("image/"))
             cb(null, true);
-        }
-        else {
-            cb(new Error("Not an image! Please upload an image."));
-        }
+        else
+            cb(new Error("Only images are allowed!"));
     },
-    limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB maximum file size
-    },
+    limits: { fileSize: 5 * 1024 * 1024 },
 });

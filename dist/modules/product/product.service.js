@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productService = void 0;
-const product_model_1 = require("./product.model");
 const ApiError_1 = require("../../utils/ApiError");
+const product_model_1 = require("./product.model");
 exports.productService = {
     async createProduct(productData) {
         return await product_model_1.Product.create(productData);
@@ -26,22 +26,30 @@ exports.productService = {
     async getProductById(id) {
         const product = await product_model_1.Product.findById(id);
         if (!product) {
-            throw new ApiError_1.ApiError(404, 'Product not found');
+            throw new ApiError_1.ApiError(404, "Product not found");
         }
         return product;
     },
     async updateProduct(id, updateData) {
         const product = await product_model_1.Product.findByIdAndUpdate(id, { $set: updateData }, { new: true });
         if (!product) {
-            throw new ApiError_1.ApiError(404, 'Product not found');
+            throw new ApiError_1.ApiError(404, "Product not found");
         }
         return product;
     },
     async deleteProduct(id) {
         const product = await product_model_1.Product.findByIdAndDelete(id);
         if (!product) {
-            throw new ApiError_1.ApiError(404, 'Product not found');
+            throw new ApiError_1.ApiError(404, "Product not found");
         }
         return product;
+    },
+    async getAllBrands() {
+        const brands = await product_model_1.Product.distinct("brand");
+        return brands;
+    },
+    async getAllCategories() {
+        const categories = await product_model_1.Product.distinct("category");
+        return categories;
     },
 };

@@ -8,14 +8,14 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const orderSchema = new mongoose_1.default.Schema({
     userId: {
         type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
         required: true,
     },
     items: [
         {
             productId: {
                 type: mongoose_1.default.Schema.Types.ObjectId,
-                ref: 'Product',
+                ref: "Product",
                 required: true,
             },
             quantity: {
@@ -37,13 +37,13 @@ const orderSchema = new mongoose_1.default.Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Shipped', 'Delivered', 'Cancelled'],
-        default: 'Pending',
+        enum: ["pending", "shipped", "delivered", "cancelled"],
+        default: "pending",
     },
     paymentStatus: {
         type: String,
-        enum: ['Pending', 'Completed', 'Failed'],
-        default: 'Pending',
+        enum: ["pending", "completed", "failed"],
+        default: "pending",
     },
     shippingAddress: {
         address: {
@@ -66,4 +66,4 @@ const orderSchema = new mongoose_1.default.Schema({
 }, {
     timestamps: true,
 });
-exports.Order = mongoose_1.default.model('Order', orderSchema);
+exports.Order = mongoose_1.default.model("Order", orderSchema);

@@ -8,13 +8,17 @@ const express_1 = __importDefault(require("express"));
 const auth_1 = require("../../middlewares/auth");
 const isAdmin_1 = require("../../middlewares/isAdmin");
 const upload_1 = require("../../middlewares/upload");
-const validateRequest_1 = require("../../middlewares/validateRequest");
 const product_controller_1 = require("./product.controller");
-const product_validation_1 = require("./product.validation");
 const router = express_1.default.Router();
 router.get("/", product_controller_1.productController.getAllProducts);
+router.get("/brands", product_controller_1.productController.getAllBrands);
+router.get("/categories", product_controller_1.productController.getAllCategories);
 router.get("/:id", product_controller_1.productController.getProductById);
-router.post("/", (0, auth_1.auth)(), isAdmin_1.isAdmin, upload_1.upload.single("image"), (0, validateRequest_1.validateRequest)(product_validation_1.createProductSchema), product_controller_1.productController.createProduct);
-router.patch("/:id", (0, auth_1.auth)(), isAdmin_1.isAdmin, upload_1.upload.single("image"), (0, validateRequest_1.validateRequest)(product_validation_1.updateProductSchema), product_controller_1.productController.updateProduct);
+router.post("/", (0, auth_1.auth)(), isAdmin_1.isAdmin, upload_1.upload.single("image"), 
+// validateRequest(createProductSchema),
+product_controller_1.productController.createProduct);
+router.patch("/:id", (0, auth_1.auth)(), isAdmin_1.isAdmin, upload_1.upload.single("image"), 
+// validateRequest(updateProductSchema),
+product_controller_1.productController.updateProduct);
 router.delete("/:id", (0, auth_1.auth)(), isAdmin_1.isAdmin, product_controller_1.productController.deleteProduct);
 exports.productRoutes = router;

@@ -24,7 +24,9 @@ exports.orderController = {
         });
     }),
     getOrderById: (0, catchAsync_1.catchAsync)(async (req, res, next) => {
-        const order = await order_service_1.orderService.getOrderById(req.params.id);
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const order = await order_service_1.orderService.getOrderById(req.params.id, page, limit);
         res.status(200).json({
             success: true,
             data: order,
@@ -47,6 +49,21 @@ exports.orderController = {
             success: true,
             message: "Order cancelled successfully",
             data: order,
+        });
+    }),
+    getAllOrders: (0, catchAsync_1.catchAsync)(async (req, res, next) => {
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const { category, name } = req.query;
+        const filters = {};
+        if (category)
+            filters.category = category;
+        if (name)
+            filters.brand = name;
+        const orders = await order_service_1.orderService.getAllOrders(page, limit, filters);
+        res.status(200).json({
+            success: true,
+            data: orders,
         });
     }),
 };

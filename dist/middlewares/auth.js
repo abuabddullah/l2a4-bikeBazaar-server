@@ -18,11 +18,11 @@ const auth = () => async (req, res, next) => {
         // Verify the token and assert the type
         const decoded = jsonwebtoken_1.default.verify(token, config_1.default.JWT_SECRET);
         // Check if the decoded object has an `id` property
-        if (!(decoded === null || decoded === void 0 ? void 0 : decoded.id)) {
+        if (!(decoded === null || decoded === void 0 ? void 0 : decoded.email)) {
             throw new ApiError_1.ApiError(401, "Invalid token payload");
         }
-        // Find the user by ID
-        const user = await user_model_1.User.findById(decoded.id);
+        // Find the user by email
+        const user = await user_model_1.User.findOne({ email: decoded.email });
         if (!user) {
             throw new ApiError_1.ApiError(401, "User not found");
         }

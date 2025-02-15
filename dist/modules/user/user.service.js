@@ -11,7 +11,13 @@ exports.userService = {
             throw new ApiError_1.ApiError(400, "Email already exists");
         }
         const user = await user_model_1.User.create(userData);
-        const token = (0, jwt_1.generateToken)(user._id);
+        // Generate JWT token
+        const jwtPayload = {
+            _id: user._id,
+            email: user.email,
+            role: user.role,
+        };
+        const token = (0, jwt_1.generateToken)(jwtPayload);
         return { user, token };
     },
     async login(email, password) {
@@ -19,7 +25,13 @@ exports.userService = {
         if (!user || !(await user.comparePassword(password))) {
             throw new ApiError_1.ApiError(401, "Invalid credentials");
         }
-        const token = (0, jwt_1.generateToken)(user._id);
+        // Generate JWT token
+        const jwtPayload = {
+            _id: user._id,
+            email: user.email,
+            role: user.role,
+        };
+        const token = (0, jwt_1.generateToken)(jwtPayload);
         return { user, token };
     },
     async getProfile(userId) {
@@ -47,5 +59,19 @@ exports.userService = {
         user.password = newPassword;
         await user.save();
         return { message: "Password updated successfully" };
+    },
+    async getAllUsers() {
+        const users = await user_model_1.User.find();
+        return users;
+    },
+    async changeUserStatus(targetUserId, status) {
+        const updateField = status === "active" || status === "inactive"
+            ? { status }
+            : { role: status };
+        const user = await user_model_1.User.findByIdAndUpdate(targetUserId, { $set: updateField }, { new: true });
+        if (!user) {
+            throw new ApiError_1.ApiError(404, "User not found");
+        }
+        return user;
     },
 };

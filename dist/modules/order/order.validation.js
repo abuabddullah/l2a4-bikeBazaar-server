@@ -18,6 +18,6 @@ exports.createOrderSchema = zod_1.z.object({
 });
 exports.updateOrderStatusSchema = zod_1.z.object({
     body: zod_1.z.object({
-        status: zod_1.z.enum(["Pending", "Shipped", "Delivered", "Cancelled"]),
+        status: zod_1.z.enum(["pending", "shipped", "delivered", "cancelled"]),
     }),
 });

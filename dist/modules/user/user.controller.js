@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
-const user_service_1 = require("./user.service");
 const catchAsync_1 = require("../../utils/catchAsync");
+const user_service_1 = require("./user.service");
 exports.userController = {
     register: (0, catchAsync_1.catchAsync)(async (req, res, next) => {
         const result = await user_service_1.userService.register(req.body);
@@ -47,7 +47,24 @@ exports.userController = {
         const result = await user_service_1.userService.changePassword(userId, currentPassword, newPassword);
         res.status(200).json({
             success: true,
-            message: "Password changed successfully",
+            message: (result === null || result === void 0 ? void 0 : result.message) || "Password changed successfully",
+        });
+    }),
+    getAllUsers: (0, catchAsync_1.catchAsync)(async (req, res, next) => {
+        const users = await user_service_1.userService.getAllUsers();
+        res.status(200).json({
+            success: true,
+            message: "Users retrieved successfully",
+            data: users,
+        });
+    }),
+    changeUserStatus: (0, catchAsync_1.catchAsync)(async (req, res, next) => {
+        const { targetUserId, status } = req.body;
+        const result = await user_service_1.userService.changeUserStatus(targetUserId, status);
+        res.status(200).json({
+            success: true,
+            message: "User status changed successfully",
+            data: result,
         });
     }),
 };

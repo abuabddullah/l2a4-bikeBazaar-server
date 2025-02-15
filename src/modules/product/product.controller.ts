@@ -36,7 +36,7 @@ export const productController = {
         .status(201)
         .json({ success: true, message: "Product created", data: product });
     } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+      res.status(500).json({ success: false, message: "Product not created" });
     }
   }),
 

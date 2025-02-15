@@ -17,7 +17,7 @@ exports.paymentService = {
         if (!order) {
             throw new ApiError_1.ApiError(404, "Order not found");
         }
-        if (order.paymentStatus !== "Pending") {
+        if (order.paymentStatus !== "pending") {
             throw new ApiError_1.ApiError(400, "Payment already processed");
         }
         const transactionId = `${orderId}_${Date.now()}`;
@@ -51,7 +51,7 @@ exports.paymentService = {
         if (!order) {
             throw new ApiError_1.ApiError(404, "Order not found");
         }
-        order.paymentStatus = "Completed";
+        order.paymentStatus = "completed";
         await order.save();
         return order;
     },
@@ -62,7 +62,7 @@ exports.paymentService = {
         if (!order) {
             throw new ApiError_1.ApiError(404, "Order not found");
         }
-        order.paymentStatus = "Failed";
+        order.paymentStatus = "failed";
         await order.save();
         return order;
     },

@@ -54,19 +54,31 @@ exports.orderService = {
             .populate("items.productId")
             .sort({ createdAt: -1 });
     },
-    async getOrderById(orderId) {
-        const order = await order_model_1.Order.findById(orderId).populate("items.productId");
+    async getOrderById(orderId, page = 1, limit = 10) {
+        const skip = (page - 1) * limit;
+        const order = await order_model_1.Order.findById(orderId)
+            .skip(skip)
+            .limit(limit)
+            .populate("items.productId");
         if (!order) {
             throw new ApiError_1.ApiError(404, "Order not found");
         }
-        return order;
+        const total = await order_model_1.Order.countDocuments({ _id: orderId });
+        return {
+            order,
+            meta: {
+                page,
+                limit,
+                total,
+            },
+        };
     },
     async updateOrderStatus(orderId, status) {
         const order = await order_model_1.Order.findById(orderId);
         if (!order) {
             throw new ApiError_1.ApiError(404, "Order not found");
         }
-        if (order.status === "Cancelled") {
+        if (order.status === "cancelled") {
             throw new ApiError_1.ApiError(400, "Cannot update cancelled order");
         }
         order.status = status;
@@ -88,7 +100,7 @@ exports.orderService = {
             for (const item of order.items) {
                 await product_model_1.Product.findByIdAndUpdate(item.productId, { $inc: { stock: item.quantity } }, { session });
             }
-            order.status = "Cancelled";
+            order.status = "cancelled";
             await order.save({ session });
             await session.commitTransaction();
             return order;
@@ -100,5 +112,23 @@ exports.orderService = {
         finally {
             session.endSession();
         }
+    },
+    async getAllOrders(page = 1, limit = 10, filters = {}) {
+        const skip = (page - 1) * limit;
+        const orders = await order_model_1.Order.find(filters)
+            .skip(skip)
+            .limit(limit)
+            .populate("items.productId")
+            .populate("userId")
+            .sort({ createdAt: -1 });
+        const total = await order_model_1.Order.countDocuments(filters);
+        return {
+            orders,
+            meta: {
+                page,
+                limit,
+                total,
+            },
+        };
     },
 };
