@@ -19,7 +19,7 @@ export const paymentService = {
     if (!order) {
       throw new ApiError(404, "Order not found");
     }
-    if (order.paymentStatus !== "pending") {
+    if (order.paymentStatus == "completed") {
       throw new ApiError(400, "Payment already processed");
     }
 
