@@ -11,4 +11,6 @@ export interface IProduct extends Document {
   description?: string;
   createdAt: Date;
   updatedAt: Date;
+  totalReviews?: number;
+  averageRating?: number;
 }

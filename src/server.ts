@@ -7,9 +7,11 @@ import helmet from "helmet";
 import config from "./config/config";
 import { connectDB } from "./config/database";
 import { errorHandler } from "./middlewares/error.middleware";
+import { newsletterRoutes } from "./modules/newsletter/newsletter.router";
 import { orderRoutes } from "./modules/order/order.routes";
 import { paymentRoutes } from "./modules/payment/payment.routes";
 import { productRoutes } from "./modules/product/product.routes";
+import { reviewRoutes } from "./modules/review/review.routes";
 import { userRoutes } from "./modules/user/user.routes";
 
 const app = express();
@@ -34,6 +36,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/newsletter", newsletterRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 // Default route
 app.get("/", (req, res) => {

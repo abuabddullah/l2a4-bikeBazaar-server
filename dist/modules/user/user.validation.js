@@ -18,6 +18,9 @@ exports.loginSchema = zod_1.z.object({
 exports.updateProfileSchema = zod_1.z.object({
     body: zod_1.z.object({
         name: zod_1.z.string().min(2).max(50).optional(),
+        avatar: zod_1.z.string().optional(),
+        address: zod_1.z.string().optional(),
+        phone: zod_1.z.string().optional(),
         email: zod_1.z.string().email().optional(),
     }),
 });

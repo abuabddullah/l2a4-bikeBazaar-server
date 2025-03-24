@@ -11,6 +11,8 @@ exports.createProductSchema = zod_1.z.object({
         stock: zod_1.z.number().int().min(0),
         category: zod_1.z.string().min(2),
         description: zod_1.z.string().optional(),
+        totalReviews: zod_1.z.number().optional(),
+        averageRating: zod_1.z.number().optional(),
     }),
 });
 exports.updateProductSchema = zod_1.z.object({
@@ -23,5 +25,7 @@ exports.updateProductSchema = zod_1.z.object({
         category: zod_1.z.string().optional(),
         imageURL: zod_1.z.string().url().optional(),
         description: zod_1.z.string().optional(),
+        totalReviews: zod_1.z.number().optional(),
+        averageRating: zod_1.z.number().optional(),
     }),
 });

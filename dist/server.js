@@ -11,9 +11,11 @@ const helmet_1 = __importDefault(require("helmet"));
 const config_1 = __importDefault(require("./config/config"));
 const database_1 = require("./config/database");
 const error_middleware_1 = require("./middlewares/error.middleware");
+const newsletter_router_1 = require("./modules/newsletter/newsletter.router");
 const order_routes_1 = require("./modules/order/order.routes");
 const payment_routes_1 = require("./modules/payment/payment.routes");
 const product_routes_1 = require("./modules/product/product.routes");
+const review_routes_1 = require("./modules/review/review.routes");
 const user_routes_1 = require("./modules/user/user.routes");
 const app = (0, express_1.default)();
 const port = config_1.default.PORT || 5000;
@@ -34,6 +36,8 @@ app.use("/api/users", user_routes_1.userRoutes);
 app.use("/api/products", product_routes_1.productRoutes);
 app.use("/api/orders", order_routes_1.orderRoutes);
 app.use("/api/payments", payment_routes_1.paymentRoutes);
+app.use("/api/newsletter", newsletter_router_1.newsletterRoutes);
+app.use("/api/reviews", review_routes_1.reviewRoutes);
 // Default route
 app.get("/", (req, res) => {
     res.send("BikeBazaar API");

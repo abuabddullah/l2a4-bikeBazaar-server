@@ -9,6 +9,8 @@ export const createProductSchema = z.object({
     stock: z.number().int().min(0),
     category: z.string().min(2),
     description: z.string().optional(),
+    totalReviews: z.number().optional(),
+    averageRating: z.number().optional(),
   }),
 });
 
@@ -22,5 +24,7 @@ export const updateProductSchema = z.object({
     category: z.string().optional(),
     imageURL: z.string().url().optional(),
     description: z.string().optional(),
+    totalReviews: z.number().optional(),
+    averageRating: z.number().optional(),
   }),
 });
