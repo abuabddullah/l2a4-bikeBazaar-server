@@ -77,12 +77,17 @@ jobs:
             --exclude='.github' \
             . $EC2_USER@$EC2_HOST:~/app/
 
-          # install production dependencies on EC2
-          ssh $EC2_USER@$EC2_HOST "cd ~/app && export PATH=$PATH:/run/user/1000/fnm_multishells/112424_1734077954807/bin && npm install"
+          # Install Node.js and npm on EC2 (in case not installed)
+          ssh $EC2_USER@$EC2_HOST "curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs"
+
+          # Install production dependencies on EC2
+          ssh $EC2_USER@$EC2_HOST "cd ~/app && npm install --production"
+
+          # Install pm2 globally if not installed
+          ssh $EC2_USER@$EC2_HOST "sudo npm install -g pm2"
 
           # Stop existing pm2 process if it exists
-          ssh $EC2_USER@$EC2_HOST "export PATH=$PATH:/run/user/1000/fnm_multishells/112424_1734077954807/bin && pm2 delete nodejs-app || true"
+          ssh $EC2_USER@$EC2_HOST "pm2 delete nodejs-app || true"
 
           # Start the application with pm2
-          ssh $EC2_USER@$EC2_HOST "export PATH=$PATH:/run/user/1000/fnm_multishells/112424_1734077954807/bin && cd ~/app && pm2 start dist/server.js --name nodejs-app"
-        
+          ssh $EC2_USER@$EC2_HOST "cd ~/app && pm2 start dist/server.js --name nodejs-app --watch"
