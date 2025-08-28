@@ -66,6 +66,7 @@ jobs:
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_USER: ${{ secrets.EC2_USER }}
+          APP_ENVS: ${{ secrets.APP_ENVS }} 
         run: |
           # create deployment directory
           ssh $EC2_USER@$EC2_HOST "mkdir -p ~/app"
@@ -88,6 +89,9 @@ jobs:
 
           # Stop existing pm2 process if it exists
           ssh $EC2_USER@$EC2_HOST "pm2 delete nodejs-app || true"
+
+          # Write environment variables to .env file on EC2
+          ssh $EC2_USER@$EC2_HOST "echo '$APP_ENVS' > ~/app/.env"
 
           # Start the application with pm2
           ssh $EC2_USER@$EC2_HOST "cd ~/app && pm2 start dist/server.js --name nodejs-app --watch"
